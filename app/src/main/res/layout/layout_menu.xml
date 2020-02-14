@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="0dp"
+    android:background="@color/whiteCardColor">
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_height="500dp"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="15dp"
+        android:padding="@dimen/loginViewsMargin">
+
+
+        <Button
+            android:id="@+id/btn_profile"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_profile"
+            android:text="my profile"
+            />
+
+        <Button
+            android:id="@+id/btn_qrcode"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_qr_code"
+            android:text="qr code" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_height="223dp"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="0dp"
+        android:padding="@dimen/loginViewsMargin">
+
+        <Button
+            android:id="@+id/btn_search"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_search"
+            android:text="search" />
+
+        <Button
+            android:id="@+id/btn_web"
+            android:layout_width="150dp"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_web"
+            android:text="web" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_height="178dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="98dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+
+
+        android:padding="@dimen/loginViewsMargin">
+
+        <Button
+            android:id="@+id/btn_verify"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_verified_user_black_24dp"
+            android:text="VERIFY" />
+
+        <Button
+            android:id="@+id/btn_approve"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_657755_check"
+            android:text="APPROVE" />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_height="178dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="220dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+
+
+        android:padding="@dimen/loginViewsMargin">
+
+        <Button
+            android:id="@+id/btn_staff"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_performance"
+            android:text="STAFF" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/ic_logout"
+            android:text="logout" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
