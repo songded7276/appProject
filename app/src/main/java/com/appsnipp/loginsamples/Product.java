@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +23,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Product extends AppCompatActivity {
     ImageView imgback;
     String CONTRACER;
-    ListView listView, listView2;
+    ListView listView;
     //String QRLot="MQ8979";
     TextView textpoint;
 
@@ -52,7 +55,6 @@ public class Product extends AppCompatActivity {
         int LocIDtest = Integer.valueOf(LocID);
         textpoint = findViewById(R.id.selpoint);
         listView = (ListView) findViewById(R.id.listView);
-        listView2 = (ListView) findViewById(R.id.listView2);
 
         downloadJSON(URLS.URL_ALL + "/test/php_get_data2.php?testid=" + ID + "&LotNO=" + LOT + "&LocID=" + LocIDtest);
     }
@@ -127,18 +129,24 @@ public class Product extends AppCompatActivity {
         final String[] stocks = new String[jsonArray.length()];
         String[] stocks2 = new String[jsonArray.length()];
         final String[] stocks3 = new String[jsonArray.length()];
+        ArrayList<HashMap<String, Object>> MyArrList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> map;
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
+            map = new HashMap<String, Object>();
             stocks[i] = obj.getString("TestName");
             stocks2[i] = obj.getString("PointQty");
             stocks3[i] = obj.getString("InspectTestID");
+            map.put("TestName",stocks[i]);
+            map.put("PointQty",stocks2[i]);
+            MyArrList.add(map);
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks);
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks2);
-        listView.setAdapter(arrayAdapter);
-        listView2.setAdapter(arrayAdapter2);
-        Utility.setListViewHeightBasedOnChildren(listView);
-        Utility.setListViewHeightBasedOnChildren(listView2);
+        SimpleAdapter sAdap;
+        sAdap = new SimpleAdapter(Product.this, MyArrList, R.layout.layout_listview_product,
+                new String[] {"TestName", "PointQty"}, new int[] {R.id.TestName, R.id.PointQty});
+        listView.setAdapter(sAdap);
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view,

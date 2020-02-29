@@ -38,7 +38,7 @@ public class Search2 extends AppCompatActivity {
     EditText text_search;
     ListView listView;
     JSONObject jsonObj = new JSONObject();
-    Button btn_save, btn_cancel, selLo, btn_input;
+    Button btn_save, btn_cancel, selLo, btn_input ,btn_Matlot;
     ImageView btnbackkk;
     final String[] stocks2 = new String[1];
     final String[] stocks3 = new String[1];
@@ -47,13 +47,16 @@ public class Search2 extends AppCompatActivity {
     final String[] stocks6 = new String[1];
     final String[] stocks7 = new String[1];
     final String[] stocks8 = new String[1];
+    final String[] stocks9 = new String[1];
+    final String[] FirstName = new String[1];
+    final String[] LastName = new String[1];
     final String[] Locname = new String[50];
     final String[] LocID = new String[50];
     final String[] MasterTestID = new String[50];
     final String[] IssueDate = new String[50];
 
 
-    TextView text1, text2, text3, text4, text5, text6, text7;
+    TextView text1, text2, text3, text4, text5, text6, text7,MatLotNO;
 
     String setText1 = "";
     String setText2 = "";
@@ -62,6 +65,7 @@ public class Search2 extends AppCompatActivity {
     String setText5 = "";
     String setText6 = "";
     String setText7 = "";
+    String Matlot = "";
 
     String data2 = "";
 
@@ -178,6 +182,9 @@ public class Search2 extends AppCompatActivity {
                 stocks6[0] = obj.getString("LocID");
                 stocks7[0] = obj.getString("Location");
                 stocks8[0] = obj.getString("Inspect_status");
+                stocks9[0] = obj.getString("UserID");
+                FirstName[0] = obj.getString("FirstName");
+                LastName[0] = obj.getString("LastName");
 
 
                 setText1 = stocks[i];
@@ -235,7 +242,19 @@ public class Search2 extends AppCompatActivity {
                     finish();
                 }
             });
-        } else {
+        }else  if(!stocks9[0].equals(String.valueOf(user.getId()))){
+            AlertDialog.Builder builder = new AlertDialog.Builder(Search2.this);
+            builder.setCancelable(false);
+            builder.setMessage("This lot brlong to "+ FirstName[0]+" "+LastName[0]);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                   finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else {
 
         }
 
@@ -283,6 +302,7 @@ public class Search2 extends AppCompatActivity {
         btnbackkk = findViewById(R.id.img_btn);
         text7 = findViewById(R.id.textView7);
         btn_input = findViewById(R.id.btn_input);
+        btn_Matlot = findViewById(R.id.btn_input_matlot);
 
 
         listView = (ListView) findViewById(R.id.listView);
@@ -401,6 +421,7 @@ public class Search2 extends AppCompatActivity {
         text4 = findViewById(R.id.textView4);
         text5 = findViewById(R.id.textView5);
         text5.setText(setText5);
+        MatLotNO = findViewById(R.id.textMatlot);
 
 
         Integer SampleTotal = 0;
@@ -452,6 +473,7 @@ public class Search2 extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Search2.this);
                 builder.setTitle("TotalQTY ");
                 final EditText input = new EditText(Search2.this);
+                input.setText(TotalQTY);
                 input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 builder.setView(input);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -506,13 +528,56 @@ public class Search2 extends AppCompatActivity {
         SampleQTY = text4.getText().toString();
         TotalQTY = text5.getText().toString();
 
+        final String[] MatlotValue = {""};
+        btn_Matlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Search2.this);
+                builder.setTitle("TotalQTY ");
+                final EditText input = new EditText(Search2.this);
+                input.setText(Matlot);
+                input.setInputType(InputType.TYPE_CLASS_TEXT );
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MatlotValue[0] = input.getText().toString();
+                        MatLotNO.setText(MatlotValue[0]);
+                        Matlot = MatLotNO.getText().toString();
 
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String[] values = new String[1];
-                values[0] = "";
-                registerUser(values);
+                if (Matlot.equals("") || TotalQTY.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Search2.this);
+                    builder.setCancelable(false);
+                    builder.setMessage("Plesae Enter MatLot & TotalQTY.");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }else {
+
+                    values[0] = "";
+                    registerUser(values);
+                }
             }
         });
 
@@ -698,6 +763,7 @@ public class Search2 extends AppCompatActivity {
                 jsonObj.put("LotNO", setText2);
                 jsonObj.put("UserID", user.getId());
                 jsonObj.put("MasterTestID", MTID);
+                jsonObj.put("MatLot", Matlot);
                 jsonObj.put("IssueDate", IssueDateValuue);
 
             } catch (Exception e) {

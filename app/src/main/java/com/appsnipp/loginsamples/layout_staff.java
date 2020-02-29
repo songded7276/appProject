@@ -236,17 +236,17 @@ public class layout_staff extends AppCompatActivity {
             try {
                 jsonDetails.put("IDuser",String.valueOf(user.getId()));
                 jsonDetails.put("InspectTestID",InspectTestID);
-                if(String.valueOf(state).equals("0")) {
-                    if (user.getMember_info().equals("staff")) {
-                        jsonDetails.put("Inspect_status", "verify");
-                    } else if (user.getMember_info().equals("SV")) {
-                        jsonDetails.put("Inspect_status", "approve");
-                    } else {
-                        jsonDetails.put("Inspect_status", "success");
-                    }
-                } else {
-                    jsonDetails.put("Inspect_status", "reject");
-                }
+//                if(String.valueOf(state).equals("0")) {
+//                    if (user.getMember_info().equals("staff")) {
+//                        jsonDetails.put("Inspect_status", "verify");
+//                    } else if (user.getMember_info().equals("SV")) {
+//                        jsonDetails.put("Inspect_status", "approve");
+//                    } else {
+//                        jsonDetails.put("Inspect_status", "success");
+//                    }
+//                } else {
+//                    jsonDetails.put("Inspect_status", "reject");
+//                }
 
             } catch (JSONException e) {
                 e.printStackTrace();

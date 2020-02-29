@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class activity_staff extends AppCompatActivity {
 
@@ -33,6 +38,8 @@ public class activity_staff extends AppCompatActivity {
     final String[] stocks_4 = new String[1];
     final String[] stocks_5 = new String[1];
     final String[] stocks_6 = new String[1];
+
+    Integer[] arrImg ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +55,10 @@ public class activity_staff extends AppCompatActivity {
 
 
 
-        downloadJSON(URLS.URL_ALL+"/test/Querystaff.php?Inspect_status=perform");
+        downloadJSON(URLS.URL_ALL+"/test/Querystaff.php?Inspect_status=perform" +"&UserID="+user.getId());
 
         listView = findViewById(R.id.listView);
-        listView2 = findViewById(R.id.listView2);
+        //listView2 = findViewById(R.id.listView2);
         TextView TextHead = findViewById(R.id.setText);
 
 
@@ -109,7 +116,12 @@ public class activity_staff extends AppCompatActivity {
         final String[] stocks3 = new String[jsonArray.length()];
         final String[] stocks33 = new String[jsonArray.length()];
         final String[] value = new String[jsonArray.length()];
+        final String[] listValue = new String[jsonArray.length()];
+        ArrayList<HashMap<String, Object>> MyArrList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> map;
+        arrImg = new Integer[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {
+            map = new HashMap<String, Object>();
             JSONObject obj = jsonArray.getJSONObject(i);
             stocks[i] = obj.getString("InspectTestID");
             stocks2[i] = obj.getString("LotNO");
@@ -118,9 +130,18 @@ public class activity_staff extends AppCompatActivity {
 
             Float valueINT = (Float.parseFloat(stocks3[i]) / Float.parseFloat( stocks33[i]))*100 ;
 
-            String format = String.format("%.04f" , valueINT);
+            String format = String.format("%.01f" , valueINT);
 
             value[i] = String.valueOf(format);
+            if(value[i].equals("100.0")){
+//                    arrImg[i] = R.drawable.full;
+                map.put("Lotno",stocks2[i]);
+                map.put("IMG",R.drawable.full);
+            }else {
+                map.put("Lotno",stocks2[i]);
+                map.put("IMG",R.drawable.half);
+            }
+            MyArrList.add(map);
 //
 //            stocks_2[0] = obj.getString("SampleQTY");
 //            stocks_3[0] = obj.getString("PartNO");
@@ -128,14 +149,17 @@ public class activity_staff extends AppCompatActivity {
 //            stocks_5[0] = obj.getString("LotNO");
 //            stocks_6[0] = obj.getString("LocID");
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks2);
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, value);
-
-        listView.setAdapter(arrayAdapter);
-        listView2.setAdapter(arrayAdapter2);
+        SimpleAdapter sAdap;
+        sAdap = new SimpleAdapter(activity_staff.this, MyArrList, R.layout.listview_staff,
+        new String[] {"Lotno", "IMG"}, new int[] {R.id.Lotno, R.id.imageView});
+        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks2);
+        //ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, value);
+        listView.setAdapter(sAdap);
+        //listView.setAdapter(arrayAdapter);
+//        listView2.setAdapter(new ImageAdapter(this));
 
         Utility.setListViewHeightBasedOnChildren(listView);
-        Utility.setListViewHeightBasedOnChildren(listView2);
+        //Utility.setListViewHeightBasedOnChildren(listView2);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view,
@@ -188,5 +212,6 @@ public class activity_staff extends AppCompatActivity {
             listView.requestLayout();
         }
     }
+
 }
 

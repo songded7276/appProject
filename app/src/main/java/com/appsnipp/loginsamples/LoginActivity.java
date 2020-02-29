@@ -96,8 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                             userJson.getInt("id"),
                             userJson.getString("username"),
                             userJson.getString("email"),
-                            userJson.getString("Member_info"),
-                            userJson.getString("GroupID")
+                            userJson.getString("GroupID"),
+                            userJson.getString("IsPrepare"),
+                            userJson.getString("IsVerify"),
+                            userJson.getString("IsApprove")
                     );
 
                     //storing the user in shared preferences

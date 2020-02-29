@@ -112,7 +112,7 @@
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:drawableTop="@drawable/ic_performance"
-            android:text="STAFF" />
+            android:text="PREPARE" />
 
         <Button
             android:id="@+id/btn_logout"

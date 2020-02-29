@@ -11,7 +11,9 @@ public class PrefManager {
         private static final String KEY_EMAIL = "user_email";
         private static final String KEY_ID = "user_id";
         private static final String KEY_GroupID = "user_GroupID";
-        private static final String KEY_Member_info = "user_Member";
+        private static final String KEY_Prepare = "user_Prepare";
+        private static final String KEY_Verify = "user_Verify";
+        private static final String KEY_Approve = "user_Approve";
         private static final String KEY_IS_LOGGED_IN = "is_logged_in";
         private static PrefManager mInstance;
         private static Context mCtx;
@@ -33,7 +35,9 @@ public class PrefManager {
             editor.putString(KEY_USERNAME, user.getUsername());
             editor.putString(KEY_EMAIL, user.getEmail());
             editor.putString(KEY_GroupID,user.getGroupID());
-            editor.putString(KEY_Member_info,user.getMember_info());
+            editor.putString(KEY_Prepare,user.getPrepare());
+            editor.putString(KEY_Verify,user.getVerify());
+            editor.putString(KEY_Approve,user.getApprove());
             editor.putBoolean(KEY_IS_LOGGED_IN,true);
             editor.apply();
         }
@@ -49,8 +53,10 @@ public class PrefManager {
                     sharedPreferences.getInt(KEY_ID, -1),
                     sharedPreferences.getString(KEY_USERNAME, null),
                     sharedPreferences.getString(KEY_EMAIL, null),
-                    sharedPreferences.getString(KEY_Member_info,null),
-                    sharedPreferences.getString(KEY_GroupID, null)
+                    sharedPreferences.getString(KEY_GroupID, null),
+                    sharedPreferences.getString(KEY_Prepare, null),
+                    sharedPreferences.getString(KEY_Verify, null),
+                    sharedPreferences.getString(KEY_Approve, null)
             );
         }
         public void logout() {

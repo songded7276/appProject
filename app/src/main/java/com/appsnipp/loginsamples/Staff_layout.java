@@ -30,7 +30,7 @@ public class Staff_layout extends AppCompatActivity {
     EditText text_search;
     ListView listView;
     JSONObject jsonObj = new JSONObject();
-    Button btn_save, btn_cancel,selLo , btn_input;
+    Button btn_save, btn_cancel, btn_edit, btn_input;
     ImageView btnbackkk;
     final String[] stocks2 = new String[1];
     final String[] stocks3 = new String[1];
@@ -43,19 +43,19 @@ public class Staff_layout extends AppCompatActivity {
     final String[] LocID = new String[50];
 
 
-    TextView text1,text2,text3,text4,text5,text6,text7;
+    TextView text1, text2, text3, text4, text5, text6, text7;
 
     User user = PrefManager.getInstance(this).getUser();
 
     int state = 0;
 
-    String setText1="";
-    String setText2="";
-    String setText3="";
-    String setText4="";
-    String setText5="";
-    String setText6="";
-    String setText7="";
+    String setText1 = "";
+    String setText2 = "";
+    String setText3 = "";
+    String setText4 = "";
+    String setText5 = "";
+    String setText6 = "";
+    String setText7 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +77,15 @@ public class Staff_layout extends AppCompatActivity {
         btnbackkk = findViewById(R.id.img_back);
         // selLo = findViewById(R.id.btn_sel);
         text7 = findViewById(R.id.textView7);
+        btn_edit = findViewById(R.id.btn_edit);
 
         Intent intent = getIntent();
         final String Value = intent.getStringExtra("Value");
 
-
-        if(Value.equals("100.0000")){
-            btn_save.setText("Confirm");
-        }else {
-            btn_save.setText("Edit");
+        btn_save.setText("Confirm");
+        if (!Value.equals("100.0")) {
+            btn_save.setEnabled(false);
+            btn_save.setVisibility(View.GONE);
         }
 
 
@@ -103,7 +103,7 @@ public class Staff_layout extends AppCompatActivity {
                 super.onPostExecute(s);
                 listView = (ListView) findViewById(R.id.listView);
                 try {
-                        loadIntoListView(s);
+                    loadIntoListView(s);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -149,7 +149,6 @@ public class Staff_layout extends AppCompatActivity {
                 JSONObject obj = jsonArray.getJSONObject(i);
 
 
-
                 stocks[i] = obj.getString("TotalQTY");
                 stocks2[0] = obj.getString("SampleQTY");
                 stocks3[0] = obj.getString("PartNO");
@@ -160,79 +159,79 @@ public class Staff_layout extends AppCompatActivity {
                 stocks8[0] = obj.getString("Inspect_status");
 
 
-
-                setText1 =  stocks[i];
-                setText2 =  stocks2[i];
-                setText3 =  stocks3[i];
-                setText4 =  stocks4[i];
-                setText5 =  stocks5[i];
-                setText6 =  stocks4[i];
-                setText7 =  stocks7[i];
+                setText1 = stocks[i];
+                setText2 = stocks2[i];
+                setText3 = stocks3[i];
+                setText4 = stocks4[i];
+                setText5 = stocks5[i];
+                setText6 = stocks4[i];
+                setText7 = stocks7[i];
             }
         }
-        text1 =findViewById(R.id.textView1);
+        text1 = findViewById(R.id.textView1);
         text1.setText(setText3);
-        text2 =findViewById(R.id.textView2);
+        text2 = findViewById(R.id.textView2);
         text2.setText(setText5);
 
-        text4 =findViewById(R.id.textView4);
+        text4 = findViewById(R.id.textView4);
         text4.setText(setText2);
-        text5 =findViewById(R.id.textView5);
+        text5 = findViewById(R.id.textView5);
         text5.setText(setText1);
-        text6 =findViewById(R.id.textView6);
+        text6 = findViewById(R.id.textView6);
         text6.setText(setText6);
         text7.setText(setText7);
-
 
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Value.equals("100.0000")){
 
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(Staff_layout.this);
-                    builder1.setMessage("Do you want to confirm?");
-                    builder1.setCancelable(true);
 
-                    builder1.setPositiveButton(
-                            "Yes",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    String[] val = new String[0];
-                                    state = 0;
-                                    registerUser(val);
-                                }
-                            });
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Staff_layout.this);
+                builder1.setMessage("Do you want to confirm?");
+                builder1.setCancelable(true);
 
-                    builder1.setNegativeButton(
-                            "No",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String[] val = new String[0];
+                                state = 0;
+                                registerUser(val);
+                            }
+                        });
 
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
-                }else {
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
 
-                    String sam = stocks2[0];
-                    String part = stocks3[0];
-                    String testid = stocks4[0];
-                    String LotNO = stocks5[0];
-                    String LocID = stocks6[0];
-                    Intent i = new Intent(Staff_layout.this, Product.class);
-                    i.putExtra("Sample", sam);
-                    i.putExtra("PartNO", part);
-                    i.putExtra("MasterTestID", testid);
-                    i.putExtra("LotNO", LotNO);
-                    i.putExtra("LocID", LocID);
-                    startActivity(i);
-                }
             }
         });
 
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sam = stocks2[0];
+                String part = stocks3[0];
+                String testid = stocks4[0];
+                String LotNO = stocks5[0];
+                String LocID = stocks6[0];
+                Intent i = new Intent(Staff_layout.this, Product.class);
+                i.putExtra("Sample", sam);
+                i.putExtra("PartNO", part);
+                i.putExtra("MasterTestID", testid);
+                i.putExtra("LotNO", LotNO);
+                i.putExtra("LocID", LocID);
+                startActivity(i);
+            }
+        });
         btnbackkk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,20 +243,20 @@ public class Staff_layout extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    finish();
+                finish();
             }
         });
 
 
     }
+
     private void registerUser(String[] values) {
         //String[] values = new String[buttonArray.size()];
         //if it passes all the validations
         //executing the async task
-        Staff_layout.RegisterUser ru = new Staff_layout.RegisterUser(values);
+        RegisterUser ru = new RegisterUser(values);
         ru.execute();
     }
-
 
 
     private class RegisterUser extends AsyncTask<Void, Void, String> {
@@ -276,7 +275,6 @@ public class Staff_layout extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
 
 
             Intent i = new Intent(Staff_layout.this, activity_staff.class);
@@ -316,19 +314,9 @@ public class Staff_layout extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject();
             JSONObject jsonDetails = new JSONObject();
             try {
-                jsonDetails.put("IDuser",String.valueOf(user.getId()));
-                jsonDetails.put("InspectTestID",InspectTestID);
-                if(state == 0) {
-                    if (user.getMember_info().equals("staff")) {
-                        jsonDetails.put("Inspect_status", "confirm");
-                    } else if (user.getMember_info().equals("SV")) {
-                        jsonDetails.put("Inspect_status", "verify");
-                    } else {
-                        jsonDetails.put("Inspect_status", "approve");
-                    }
-                } else {
-                    jsonDetails.put("Inspect_status", "reject");
-                }
+                jsonDetails.put("IDuser", String.valueOf(user.getId()));
+                jsonDetails.put("InspectTestID", InspectTestID);
+                jsonDetails.put("Inspect_status", "confirm");
 
             } catch (JSONException e) {
                 e.printStackTrace();

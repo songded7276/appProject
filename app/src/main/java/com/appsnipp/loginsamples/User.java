@@ -1,14 +1,16 @@
 package com.appsnipp.loginsamples;
 
 public class User {
-    private String username, name,GroupID, member_info;
+    private String username, name,GroupID, prepare,Verify,Approve;
     private int id;
-    public User(int id, String username, String name,String GroupID, String Member_info) {
+    public User(int id, String username, String name,String GroupID, String IsPrepare, String IsVerify,String IsApprove) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.GroupID = GroupID;
-        this.member_info = Member_info;
+        this.prepare = IsPrepare;
+        this.Verify = IsVerify;
+        this.Approve = IsApprove;
     }
     public String getUsername() {
         return username;
@@ -17,7 +19,9 @@ public class User {
         return name;
     }
     public String getGroupID() {return GroupID;}
-    public String getMember_info() {return member_info;}
+    public String getPrepare() {return prepare;}
+    public String getVerify() {return Verify;}
+    public String getApprove() {return Approve;}
 
     public int getId() {
         return id;

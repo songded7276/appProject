@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -24,10 +25,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class activity_sv_tool extends AppCompatActivity {
-    ListView listView, listView2, listView3;
+    ListView listView;
     Button verify, reject;
 
     ImageView btn_back;
@@ -41,8 +43,6 @@ public class activity_sv_tool extends AppCompatActivity {
         setContentView(R.layout.activity_sv);
 
         listView = findViewById(R.id.listView);
-        listView2 = findViewById(R.id.listView2);
-        listView3 = findViewById(R.id.listView3);
 
         verify = findViewById(R.id.btn_verify);
         reject = findViewById(R.id.btn_reject);
@@ -55,11 +55,16 @@ public class activity_sv_tool extends AppCompatActivity {
             }
         });
 
-
-        if(user.getMember_info().equals("admin")){
+        Intent intent = getIntent();
+        final String TextName = intent.getStringExtra("TextName");
+        if(TextName.equals("SUPERVISOR")){
+            verify.setText("VERIFY");
+        }else {
             verify.setText("APPROVE");
         }
-        Intent intent = getIntent();
+
+
+
         final String InspectTestID = intent.getStringExtra("InspectTestID");
 
         downloadJSON(URLS.URL_ALL + "/test/Querysv_tool.php?InspectTestID="+InspectTestID);
@@ -115,28 +120,37 @@ public class activity_sv_tool extends AppCompatActivity {
         String[] stocks2 = new String[jsonArray.length()];
         final String[] stocks3 = new String[jsonArray.length()];
         final String[] stocks4 = new String[jsonArray.length()];
+        ArrayList<HashMap<String, Object>> MyArrList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> map;
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
+            map = new HashMap<String, Object>();
             stocks[i] = obj.getString("TestNO");
             stocks2[i] = obj.getString("TestName");
             stocks3[i] = obj.getString("PercentOK");
+            map.put("TestNO",stocks[i]);
+            map.put("TestName",stocks2[i]);
+            if(stocks3[i].equals("100.0000")){
+                map.put("PercentOK",R.drawable.full);
+            }else {
+                map.put("PercentOK",R.drawable.half);
+            }
+            MyArrList.add(map);
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks);
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks2);
-        ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stocks3);
-        listView.setAdapter(arrayAdapter);
-        listView2.setAdapter(arrayAdapter2);
-        listView3.setAdapter(arrayAdapter3);
-        activity_sv_tool.Utility.setListViewHeightBasedOnChildren(listView);
-        activity_sv_tool.Utility.setListViewHeightBasedOnChildren(listView2);
-        activity_sv_tool.Utility.setListViewHeightBasedOnChildren(listView3);
+        SimpleAdapter sAdap;
+        sAdap = new SimpleAdapter(activity_sv_tool.this, MyArrList, R.layout.layout_listview_sv_tool,
+                new String[] {"TestNO", "TestName","PercentOK"}, new int[] {R.id.TestNO, R.id.TestName,R.id.imageView});
+        listView.setAdapter(sAdap);
 
+
+        Intent intent = getIntent();
+        final String TextName = intent.getStringExtra("TextName");
 
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(activity_sv_tool.this);
-                if(user.getMember_info().equals("admin")){
+                if(TextName.equals("ADMIN")){
                     builder1.setMessage("Do you want to approve?");
                 }else {
                     builder1.setMessage("Do you want to verify?");
@@ -257,6 +271,7 @@ public class activity_sv_tool extends AppCompatActivity {
 
             Intent intent = getIntent();
             final String InspectTestID = intent.getStringExtra("InspectTestID");
+            final String TextName = intent.getStringExtra("TextName");
 
 
             //creating request parameters
@@ -267,12 +282,10 @@ public class activity_sv_tool extends AppCompatActivity {
                 jsonDetails.put("IDuser",String.valueOf(user.getId()));
                 jsonDetails.put("InspectTestID",InspectTestID);
                 if(state == 0) {
-                    if (user.getMember_info().equals("staff")) {
-                        jsonDetails.put("Inspect_status", "confirm");
-                    } else if (user.getMember_info().equals("SV")) {
-                        jsonDetails.put("Inspect_status", "verify");
-                    } else {
+                    if (TextName.equals("ADMIN")) {
                         jsonDetails.put("Inspect_status", "approve");
+                    } else{
+                        jsonDetails.put("Inspect_status", "verify");
                     }
                 } else {
                     jsonDetails.put("Inspect_status", "reject");
