@@ -123,6 +123,7 @@ public class Product extends AppCompatActivity {
         final String part = intent.getStringExtra("PartNO");
         final String testid = intent.getStringExtra("MasterTestID");
         final String LOT = intent.getStringExtra("LotNO");
+        final String TotalQty = intent.getStringExtra("TotalQTY");
 
         textpoint.setText(part + "\nLOT : " + LOT + "\n");
         JSONArray jsonArray = new JSONArray(json);
@@ -160,6 +161,7 @@ public class Product extends AppCompatActivity {
                 i.putExtra("PartNO", part);
                 i.putExtra("InspectTestID", ISTID);
                 i.putExtra("LotNO", LOT);
+                i.putExtra("TotalQTY", TotalQty);
 
                 startActivityForResult(i, 0);
                 //Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();

@@ -31,13 +31,8 @@ import java.util.HashMap;
 public class activity_staff extends AppCompatActivity {
 
     ImageView imgback;
-    ListView listView,listView2;
+    ListView listView;
     User user = PrefManager.getInstance(this).getUser();
-    final String[] stocks_2 = new String[1];
-    final String[] stocks_3 = new String[1];
-    final String[] stocks_4 = new String[1];
-    final String[] stocks_5 = new String[1];
-    final String[] stocks_6 = new String[1];
 
     Integer[] arrImg ;
 
@@ -58,7 +53,6 @@ public class activity_staff extends AppCompatActivity {
         downloadJSON(URLS.URL_ALL+"/test/Querystaff.php?Inspect_status=perform" +"&UserID="+user.getId());
 
         listView = findViewById(R.id.listView);
-        //listView2 = findViewById(R.id.listView2);
         TextView TextHead = findViewById(R.id.setText);
 
 
@@ -158,7 +152,7 @@ public class activity_staff extends AppCompatActivity {
         //listView.setAdapter(arrayAdapter);
 //        listView2.setAdapter(new ImageAdapter(this));
 
-        Utility.setListViewHeightBasedOnChildren(listView);
+        //Utility.setListViewHeightBasedOnChildren(listView);
         //Utility.setListViewHeightBasedOnChildren(listView2);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

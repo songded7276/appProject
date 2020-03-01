@@ -54,6 +54,10 @@ public class Search2 extends AppCompatActivity {
     final String[] LocID = new String[50];
     final String[] MasterTestID = new String[50];
     final String[] IssueDate = new String[50];
+    final String[] Customer = new String[50];
+    final String[] PartNumber = new String[50];
+    final String[] PartName = new String[50];
+    final String[] Material = new String[50];
 
 
     TextView text1, text2, text3, text4, text5, text6, text7,MatLotNO;
@@ -197,6 +201,8 @@ public class Search2 extends AppCompatActivity {
                 status = stocks8[i];
             }
         }
+
+        TotalQTY = stocks[0];
         text1 = findViewById(R.id.textView1);
         text1.setText(setText3);
         text2 = findViewById(R.id.textView2);
@@ -272,6 +278,7 @@ public class Search2 extends AppCompatActivity {
                 i.putExtra("MasterTestID", testid);
                 i.putExtra("LotNO", LotNO);
                 i.putExtra("LocID", LocID);
+                i.putExtra("TotalQTY", TotalQTY);
                 startActivity(i);
             }
         });
@@ -393,9 +400,13 @@ public class Search2 extends AppCompatActivity {
 
 
                 stocks[i] = obj.getString("CurrentQty");
-                stocks3[0] = obj.getString("PartNo");
+                stocks3[0] = obj.getString("PartCode");
                 stocks5[0] = obj.getString("LotNo");
                 IssueDate[0] = obj.getString("IssueDate");
+                Customer[0] = obj.getString("Customer");
+                PartNumber[0] = obj.getString("PartNumber");
+                PartName[0] = obj.getString("PartName");
+                Material[0] = obj.getString("Material");
 
 //                stocks2[0] = obj.getString("SampleQTY");
 //                stocks4[0] = obj.getString("MasterTestID");
@@ -728,6 +739,7 @@ public class Search2 extends AppCompatActivity {
             i.putExtra("IssueDate", IssueDateValuue);
             i.putExtra("LotNO", setText2);
             i.putExtra("LocID", Loc);
+            i.putExtra("TotalQTY",TotalQTY);
 
             //hiding the progressbar after completion
 //            progressBar.setVisibility(View.GONE);
@@ -752,6 +764,10 @@ public class Search2 extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             String Test = SampleQTY;
+            String IsCustomer = Customer[0];
+            String IsPartNumber = PartNumber[0];
+            String IsPartName = PartName[0];
+            String IsMaterial = Material[0];
             //creating request handler object
             RequestHandler requestHandler = new RequestHandler();
             //creating request parameters
@@ -765,6 +781,10 @@ public class Search2 extends AppCompatActivity {
                 jsonObj.put("MasterTestID", MTID);
                 jsonObj.put("MatLot", Matlot);
                 jsonObj.put("IssueDate", IssueDateValuue);
+                jsonObj.put("Customer", IsCustomer);
+                jsonObj.put("PartNumber", IsPartNumber);
+                jsonObj.put("PartName", IsPartName);
+                jsonObj.put("Material", IsMaterial);
 
             } catch (Exception e) {
                 e.printStackTrace();

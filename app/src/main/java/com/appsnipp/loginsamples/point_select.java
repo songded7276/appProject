@@ -27,6 +27,7 @@ public class point_select extends AppCompatActivity {
     ListView listView;
     TextView text;
     ImageView imgback;
+    String Sample="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,7 @@ public class point_select extends AppCompatActivity {
         final String testid = intent.getStringExtra("MasterTestID");
         final String inspectid = intent.getStringExtra("InspectTestID");
         final String LOT = intent.getStringExtra("LotNO");
-        final String part = intent.getStringExtra("PartNO");
-        final String sam = intent.getStringExtra("Sample");
+        final String TotalQTY = intent.getStringExtra("TotalQTY");
 
         text.setText(name+"\nLOT : "+ LOT+"\n");
 
@@ -56,7 +56,7 @@ public class point_select extends AppCompatActivity {
 
 
         int ID = Integer.valueOf(testid);
-        downloadJSON(URLS.URL_ALL+"/test/php_get_data3.php?testid=" + ID + "&ToolName=" + name + "&InspectTestID=" + inspectid);
+        downloadJSON(URLS.URL_ALL+"/test/php_get_data3.php?testid=" + ID + "&ToolName=" + name + "&InspectTestID=" + inspectid + "&TotalQTY=" + TotalQTY);
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
@@ -110,7 +110,6 @@ public class point_select extends AppCompatActivity {
         JSONArray jsonArray = new JSONArray(json);
         Intent intent = getIntent();
         final String testid = intent.getStringExtra("MasterTestID");
-        final String sam = intent.getStringExtra("Sample");
         final String LOT = intent.getStringExtra("LotNO");
         final String ISTID = intent.getStringExtra("InspectTestID");
         final String part = intent.getStringExtra("PartNO");
@@ -123,6 +122,7 @@ public class point_select extends AppCompatActivity {
         final String[] stocks6 = new String[jsonArray.length()];
         final String[] stocks7 = new String[jsonArray.length()];
         final String[] stocks8 = new String[jsonArray.length()];
+        final String[] sample = new String[jsonArray.length()];
         ArrayList<HashMap<String, Object>> MyArrList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> map;
 
@@ -137,6 +137,7 @@ public class point_select extends AppCompatActivity {
             stocks6[i] = obj.getString("MinimumValue");
             stocks7[i] = obj.getString("MaximumValue");
             stocks8[i] = obj.getString("Spec");
+            sample[i] = obj.getString("SampleQTY");
             map.put("TestNO",stocks[i]);
             map.put("TestName",stocks2[i]);
             map.put("TestedQty",stocks3[i]);
@@ -147,7 +148,7 @@ public class point_select extends AppCompatActivity {
                 new String[] {"TestName", "PointQty","TestedQty"}, new int[] {R.id.TestNO, R.id.TestName,R.id.TestedQty});
         listView.setAdapter(sAdap);
 
-
+        Sample = sample[0];
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view,
@@ -165,7 +166,7 @@ public class point_select extends AppCompatActivity {
                 if (TypeID == 0) {
                     Intent i = new Intent(point_select.this, inputdata.class);
                     i.putExtra("ToolName", text);
-                    i.putExtra("Sample", sam);
+                    i.putExtra("Sample", Sample);
                     i.putExtra("MasterTestID", testid);
                     i.putExtra("MasterTestDetailID", text2);
                     i.putExtra("InspectTestID", ISTID);
@@ -178,7 +179,7 @@ public class point_select extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(point_select.this, InputDataButton.class);
                     i.putExtra("ToolName", text);
-                    i.putExtra("Sample", sam);
+                    i.putExtra("Sample", Sample);
                     i.putExtra("MasterTestID", testid);
                     i.putExtra("MasterTestDetailID", text2);
                     i.putExtra("InspectTestID", ISTID);
