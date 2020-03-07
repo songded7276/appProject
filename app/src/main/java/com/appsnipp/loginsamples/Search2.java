@@ -251,7 +251,7 @@ public class Search2 extends AppCompatActivity {
         }else  if(!stocks9[0].equals(String.valueOf(user.getId()))){
             AlertDialog.Builder builder = new AlertDialog.Builder(Search2.this);
             builder.setCancelable(false);
-            builder.setMessage("This lot brlong to "+ FirstName[0]+" "+LastName[0]);
+            builder.setMessage("This lot belong to "+ FirstName[0]+" "+LastName[0]);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                    finish();
@@ -544,7 +544,7 @@ public class Search2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Search2.this);
-                builder.setTitle("TotalQTY ");
+                builder.setTitle("MatLotNO");
                 final EditText input = new EditText(Search2.this);
                 input.setText(Matlot);
                 input.setInputType(InputType.TYPE_CLASS_TEXT );

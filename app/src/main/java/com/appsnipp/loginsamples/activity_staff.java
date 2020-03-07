@@ -1,10 +1,13 @@
 package com.appsnipp.loginsamples;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -74,7 +77,20 @@ public class activity_staff extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 try {
-                    loadIntoListView(s);
+                    if(s.equals("[{\"InspectTestID\":null,\"LotNO\":null,\"CountPerform\":null,\"CountTotal\":null}]")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity_staff.this);
+                        builder.setCancelable(false);
+                        builder.setMessage("Data is Empty");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }else {
+                        loadIntoListView(s);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

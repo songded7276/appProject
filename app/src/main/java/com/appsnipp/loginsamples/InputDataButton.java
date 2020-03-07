@@ -160,7 +160,7 @@ public class InputDataButton extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText("SAMPLE " + String.valueOf(t+1) +":");
             myEditText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            myEditText.setHint("VALUE " + String.valueOf(t));
+            myEditText.setHint("VALUE " + String.valueOf(t+1));
             int id_text = t;
             myEditText.setId(id_text);
 

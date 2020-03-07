@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="15dp"
             android:text="TestNO"/>
         <TextView
             android:id="@+id/TestName"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="15dp"
             android:layout_marginLeft="10dp"
             android:text="TestName" />
     </LinearLayout>
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_weight="1"
-            android:textSize="25dp"
+            android:textSize="15dp"
             android:text="TestedQty" />
     </LinearLayout>
 
