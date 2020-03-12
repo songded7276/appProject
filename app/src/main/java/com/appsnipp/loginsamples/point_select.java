@@ -176,7 +176,21 @@ public class point_select extends AppCompatActivity {
                     i.putExtra("LotNO",LOT);
                     i.putExtra("PartNO",part);
                     startActivityForResult(i,0);
-                } else {
+                }else if(TypeID == 2){
+                    Intent i = new Intent(point_select.this, inputdata_CTM.class);
+                    i.putExtra("ToolName", text);
+                    i.putExtra("Sample", Sample);
+                    i.putExtra("MasterTestID", testid);
+                    i.putExtra("MasterTestDetailID", text2);
+                    i.putExtra("InspectTestID", ISTID);
+                    i.putExtra("MinimumValue", Min);
+                    i.putExtra("MaximumValue", Max);
+                    i.putExtra("TestNO", TestNO);
+                    i.putExtra("LotNO",LOT);
+                    i.putExtra("PartNO",part);
+                    startActivityForResult(i,0);
+                }
+                else {
                     Intent i = new Intent(point_select.this, InputDataButton.class);
                     i.putExtra("ToolName", text);
                     i.putExtra("Sample", Sample);

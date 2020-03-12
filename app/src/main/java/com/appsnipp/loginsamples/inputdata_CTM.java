@@ -21,7 +21,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -41,7 +40,7 @@ import java.util.HashMap;
 
 import butterknife.ButterKnife;
 
-public class inputdata extends AppCompatActivity {
+public class inputdata_CTM extends AppCompatActivity {
     User user = PrefManager.getInstance(this).getUser();
     EditText value ;
     int PERMISSION_ALL = 1;
@@ -59,6 +58,7 @@ public class inputdata extends AppCompatActivity {
 
 
     ArrayList<EditText> buttonArray = new ArrayList<EditText>();
+    ArrayList<EditText> buttonArray2 = new ArrayList<EditText>();
 
 
 
@@ -163,7 +163,7 @@ public class inputdata extends AppCompatActivity {
         //Adding 2 TextViews
         ScrollView scrollView = new ScrollView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
+        layoutParams.gravity= Gravity.CENTER_HORIZONTAL;
         scrollView.setLayoutParams(layoutParams);
 
         //textview position
@@ -206,13 +206,17 @@ public class inputdata extends AppCompatActivity {
             RelativeLayout row = new RelativeLayout(this);
             row.setLayoutParams(layoutParams);
             final EditText myEditText = new EditText(this);
+            final EditText myEditText2 = new EditText(this);
             buttonArray.add(myEditText);
+            buttonArray2.add(myEditText2);
             TextView textView = new TextView(this);
             textView.setText("SAMPLE " + String.valueOf(t+1)+ ":");
             textView.setLayoutParams(textViewLayoutParams);
             //myEditText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            myEditText.setHint("VALUE " + String.valueOf(t+1));
+            myEditText.setHint("Degree");
+            myEditText2.setHint("Arcmin");
             myEditText.setLayoutParams(edittextLayoutParams);
+            myEditText2.setLayoutParams(edittextLayoutParams);
             int id_text = t;
             myEditText.setId(id_text);
             try{
@@ -278,27 +282,27 @@ public class inputdata extends AppCompatActivity {
             button2.setId(id2);
             row.addView(textView);
             row.addView(myEditText);
-            row2.addView(button);
+            //row2.addView(button);
             row2.addView(button2);
 
             row.addView(row2);
             layout.addView(row);
 
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    myEditText.requestFocus();
-                    myEditText.setEnabled(true);
-                    button.requestFocus();
-                    value=myEditText;
-
-                    //test = myEditText;
-                    Intent i = new Intent(inputdata.this, camera.class);
-                    startActivityForResult(i,0);
-
-                }
-            });
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    myEditText.requestFocus();
+//                    myEditText.setEnabled(true);
+//                    button.requestFocus();
+//                    value=myEditText;
+//
+//                    //test = myEditText;
+//                    Intent i = new Intent(inputdata_CTM.this, camera.class);
+//                    startActivityForResult(i,0);
+//
+//                }
+//            });
 
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -382,7 +386,7 @@ public class inputdata extends AppCompatActivity {
                         }
                     }
 
-                        if (isNotPass == 1) {
+                    if (isNotPass == 1) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                                 context);
 
@@ -431,7 +435,7 @@ public class inputdata extends AppCompatActivity {
 
 
         setContentView(scrollView);
-        }
+    }
 
     String Val2 ="";
     @Override
@@ -442,14 +446,14 @@ public class inputdata extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     Val2 = data.getStringExtra("test");
                     if(Val2.equals("None")||(Val2.equals("null"))){
-                        new android.support.v7.app.AlertDialog.Builder(inputdata.this)
+                        new android.support.v7.app.AlertDialog.Builder(inputdata_CTM.this)
                                 .setTitle("No detect picture.")
                                 .setMessage("Please take picture again.")
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent i = new Intent(inputdata.this, camera.class);
+                                        Intent i = new Intent(inputdata_CTM.this, camera.class);
                                         startActivityForResult(i,0);
                                     }
                                 }).show();
@@ -467,7 +471,7 @@ public class inputdata extends AppCompatActivity {
         //String[] values = new String[buttonArray.size()];
         //if it passes all the validations
         //executing the async task
-        RegisterUser ru = new RegisterUser(values);
+        inputdata_CTM.RegisterUser ru = new inputdata_CTM.RegisterUser(values);
         ru.execute();
     }
 
@@ -492,7 +496,7 @@ public class inputdata extends AppCompatActivity {
 
 
 
-            Intent i = new Intent(inputdata.this, point_select.class);
+            Intent i = new Intent(inputdata_CTM.this, point_select.class);
             Intent intent = getIntent();
             final String name = intent.getStringExtra("ToolName");
             final String testid = intent.getStringExtra("MasterTestID");
@@ -615,4 +619,5 @@ public class inputdata extends AppCompatActivity {
     }
 
 }
+
 
