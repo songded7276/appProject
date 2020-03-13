@@ -29,6 +29,7 @@
         <activity android:name=".layout_staff" />
         <activity android:name=".activity_staff" />
         <activity android:name=".Search" />
+        <activity android:name=".inputdata_CTM" />
         <activity
             android:name=".ScannerActivity"
             android:label="@string/SCAN"

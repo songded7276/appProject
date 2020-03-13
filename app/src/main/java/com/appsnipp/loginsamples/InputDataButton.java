@@ -144,6 +144,8 @@ public class InputDataButton extends AppCompatActivity {
         int b = Integer.valueOf(sam);
 
         Text = new TextView(this);
+        int blackColorValue = Color.parseColor("#000000");
+        Text.setTextColor(blackColorValue);
         Text.setText(TestNO+"."+name+"\n" + Spec);
         Text.setTextSize(22);
         Text.setGravity(Gravity.CENTER);
@@ -159,6 +161,7 @@ public class InputDataButton extends AppCompatActivity {
             buttonArray.add(myEditText);
             TextView textView = new TextView(this);
             textView.setText("SAMPLE " + String.valueOf(t+1) +":");
+            textView.setTextColor(blackColorValue);
             myEditText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             myEditText.setHint("VALUE " + String.valueOf(t+1));
             int id_text = t;

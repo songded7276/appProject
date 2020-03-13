@@ -193,7 +193,9 @@ public class inputdata extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(layout);
         //layout.setGravity(Gravity.CENTER_VERTICAL);
+        int blackColorValue = Color.parseColor("#000000");
         TextView Text = new TextView(this);
+        Text.setTextColor(blackColorValue);
         Text.setText(TestNO+"."+name +"\nMin - Max : "+MIN+" - "+MAX+"\n");
         Text.setTextSize(22);
         Text.setGravity(Gravity.CENTER);
@@ -209,6 +211,7 @@ public class inputdata extends AppCompatActivity {
             buttonArray.add(myEditText);
             TextView textView = new TextView(this);
             textView.setText("SAMPLE " + String.valueOf(t+1)+ ":");
+            textView.setTextColor(blackColorValue);
             textView.setLayoutParams(textViewLayoutParams);
             //myEditText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             myEditText.setHint("VALUE " + String.valueOf(t+1));
@@ -537,6 +540,7 @@ public class inputdata extends AppCompatActivity {
             final String MAX = intent.getStringExtra("MaximumValue");
             final String testdetailid = intent.getStringExtra("MasterTestDetailID");
             final String ISTID = intent.getStringExtra("InspectTestID");
+            final String TestType = intent.getStringExtra("TestType");
 
             final float Min = Float.parseFloat(MIN);
             final float Max = Float.parseFloat(MAX);
@@ -552,6 +556,7 @@ public class inputdata extends AppCompatActivity {
                 jsonDetails.put("IDuser",String.valueOf(user.getId()));
                 jsonDetails.put("InspectTestID", dataist);
                 jsonDetails.put("MasterTestDetailID", detailid);
+                jsonDetails.put("TestTypeID", TestType);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

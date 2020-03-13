@@ -175,6 +175,7 @@ public class point_select extends AppCompatActivity {
                     i.putExtra("TestNO", TestNO);
                     i.putExtra("LotNO",LOT);
                     i.putExtra("PartNO",part);
+                    i.putExtra("TestType",TestType);
                     startActivityForResult(i,0);
                 }else if(TypeID == 2){
                     Intent i = new Intent(point_select.this, inputdata_CTM.class);
@@ -188,6 +189,7 @@ public class point_select extends AppCompatActivity {
                     i.putExtra("TestNO", TestNO);
                     i.putExtra("LotNO",LOT);
                     i.putExtra("PartNO",part);
+                    i.putExtra("TestType",TestType);
                     startActivityForResult(i,0);
                 }
                 else {

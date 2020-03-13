@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class inputdata_CTM extends AppCompatActivity {
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
 
-    ArrayList<String> ValINPUT = new ArrayList<String>();
+    ArrayList<String> ValueInput = new ArrayList<String>();
     ArrayList<String> SAMPLETEST = new ArrayList<String>();
 
     String[] PERMISSIONS = {
@@ -149,8 +150,7 @@ public class inputdata_CTM extends AppCompatActivity {
         final String[] stocks = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
-            stocks[i] = obj.getString("Value");
-            ValINPUT.add(jsonArray.getJSONObject(i).getString("Value"));
+            ValueInput.add(jsonArray.getJSONObject(i).getString("Value"));
             SAMPLETEST.add(jsonArray.getJSONObject(i).getString("SampleNO"));
         }
 
@@ -183,8 +183,9 @@ public class inputdata_CTM extends AppCompatActivity {
         //edittext position
         RelativeLayout.LayoutParams edittextLayoutParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        edittextLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        edittextLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        buttonLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        buttonLayoutParams.setMargins(0,0,50,0);
+        buttonLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
 
 
 
@@ -194,12 +195,15 @@ public class inputdata_CTM extends AppCompatActivity {
         scrollView.addView(layout);
         //layout.setGravity(Gravity.CENTER_VERTICAL);
         TextView Text = new TextView(this);
-        Text.setText(TestNO+"."+name +"\nMin - Max : "+MIN+" - "+MAX+"\n");
+        int blackColorValue = Color.parseColor("#000000");
+        Text.setTextColor(blackColorValue);
+        Text.setText(TestNO+"."+name +"\nMin - Max : "+String.valueOf(Integer.parseInt(MIN)/60)+"°"+String.valueOf(Integer.parseInt(MIN)%60)+"'"+
+                " - "+String.valueOf(Integer.parseInt(MAX)/60)+"°"+String.valueOf(Integer.parseInt(MAX)%60)+"'"+"\n");
         Text.setTextSize(22);
         Text.setGravity(Gravity.CENTER);
         layout.addView(Text);
 
-        final String[] inputValue = new String[ValINPUT.size()];
+        final String[] inputVal = new String[ValueInput.size()];
         final String[] sampleID = new String[SAMPLETEST.size()];
         int fix_index = 0;
         for (int t = 0; t < b; t++) {
@@ -211,46 +215,70 @@ public class inputdata_CTM extends AppCompatActivity {
             buttonArray2.add(myEditText2);
             TextView textView = new TextView(this);
             textView.setText("SAMPLE " + String.valueOf(t+1)+ ":");
+            textView.setTextColor(blackColorValue);
             textView.setLayoutParams(textViewLayoutParams);
-            //myEditText.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
             myEditText.setHint("Degree");
             myEditText2.setHint("Arcmin");
-            myEditText.setLayoutParams(edittextLayoutParams);
-            myEditText2.setLayoutParams(edittextLayoutParams);
+
+            TextView Textdegree = new TextView(this);
+            TextView Textarcmin = new TextView(this);
+            Textdegree.setTextColor(blackColorValue);
+            Textarcmin.setTextColor(blackColorValue);
+            Textdegree.setText("°");
+            Textarcmin.setText("'");
             int id_text = t;
             myEditText.setId(id_text);
+            myEditText2.setId(id_text);
             try{
                 sampleID[t-fix_index] = SAMPLETEST.get(t-fix_index);
                 if(sampleID[t-fix_index].equals(String.valueOf((t+1)))) {
-                    inputValue[t-fix_index] = ValINPUT.get(t-fix_index);
-                    float valuein = Float.parseFloat(inputValue[t-fix_index]);
+                    inputVal[t-fix_index] = ValueInput.get(t-fix_index);
+                    float valuein = Float.parseFloat(inputVal[t-fix_index]);
                     if(valuein>Max||valuein<Min){
                         myEditText.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                         myEditText.setTextColor(Color.RED);
-                        if(inputValue[t-fix_index].equals("-999")){
+                        if(inputVal[t-fix_index].equals("-999")){
                             myEditText.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                             myEditText.setTextColor(Color.BLACK);
                             myEditText.setText("");
+//                            myEditText2.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+//                            myEditText2.setTextColor(Color.BLACK);
+//                            myEditText2.setText("");
                         }else {
-                            myEditText.setText(inputValue[t-fix_index]);
+                            Integer Valdegree = Integer.parseInt(inputVal[t-fix_index])/60;
+                            Integer Valarcmin = Integer.parseInt(inputVal[t-fix_index])%60;
+                            myEditText.setText(String.valueOf(Valdegree));
+                            myEditText2.setText(String.valueOf(Valarcmin));
                         }
                     }
                     else {
                         myEditText.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                         myEditText.setTextColor(Color.BLACK);
-                        myEditText.setText(inputValue[t-fix_index]);
+                        myEditText2.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+                        myEditText2.setTextColor(Color.BLACK);
+                        Integer Valdegree = Integer.parseInt(inputVal[t-fix_index])/60;
+                        Integer Valarcmin = Integer.parseInt(inputVal[t-fix_index])%60;
+                        myEditText.setText(String.valueOf(Valdegree));
+                        myEditText2.setText(String.valueOf(Valarcmin));
                     }
                 } else {
                     fix_index++;
                     myEditText.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                     myEditText.setTextColor(Color.BLACK);
                     myEditText.setText("");
+                    myEditText2.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+                    myEditText2.setTextColor(Color.BLACK);
+                    myEditText2.setText("");
                 }
             } catch (Exception e) {
                 fix_index++;
                 myEditText.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                 myEditText.setTextColor(Color.BLACK);
                 myEditText.setText("");
+                myEditText2.getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+                myEditText2.setTextColor(Color.BLACK);
+                myEditText2.setText("");
             }
 
 
@@ -275,17 +303,25 @@ public class inputdata_CTM extends AppCompatActivity {
             final int id2 = t;
 
 
+
             myEditText.setEnabled(false);
             //myEditText.setFocusableInTouchMode(true);
 
 
             button2.setId(id2);
             row.addView(textView);
-            row.addView(myEditText);
+            row2.addView(myEditText);
+            row2.addView(Textdegree);
+            row2.addView(myEditText2);
+            row2.addView(Textarcmin);
+
+//            row.addView(myEditText);
+//            row.addView(myEditText2);
             //row2.addView(button);
             row2.addView(button2);
 
             row.addView(row2);
+//            row.addView(rowEdittext);
             layout.addView(row);
 
 
@@ -348,6 +384,7 @@ public class inputdata_CTM extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     final String[] values = new String[buttonArray.size()];
+                    final String[] values2 = new String[buttonArray2.size()];
                     String showValue = "";
                     int isNotPass = 0;
 //                    for (int i = 0; i < buttonArray.size(); i++) {
@@ -365,23 +402,32 @@ public class inputdata_CTM extends AppCompatActivity {
 //                    }
                     for (int i = 0; i < buttonArray.size(); i++) {
                         values[i] = buttonArray.get(i).getText().toString();
+                        values2[i] = buttonArray2.get(i).getText().toString();
                         showValue += values[i] + ",";
                         try {
                             final float Val = Float.parseFloat(values[i]);
+                            final float ValArcmin = Float.parseFloat(values2[i]);
+                            float ValueTotal = Val*60 + ValArcmin;
 
-                            if (Val > Max || Val < Min) {
+                            if (ValueTotal > Max || ValueTotal < Min) {
                                 isNotPass = 1;
                                 buttonArray.get(i).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                                 buttonArray.get(i).setTextColor(Color.RED);
+                                buttonArray2.get(i).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                                buttonArray2.get(i).setTextColor(Color.RED);
                             } else {
                                 buttonArray.get(i).getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                                 buttonArray.get(i).setTextColor(Color.BLACK);
+                                buttonArray2.get(i).getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+                                buttonArray2.get(i).setTextColor(Color.BLACK);
                             }
                         } catch (NumberFormatException e) {
                             if (values[i].equals("")) {
                                 isNotPass = 1;
                                 buttonArray.get(i).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                                 buttonArray.get(i).setTextColor(Color.RED);
+                                buttonArray2.get(i).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                                buttonArray2.get(i).setTextColor(Color.RED);
                             }
                         }
                     }
@@ -398,11 +444,13 @@ public class inputdata_CTM extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
 
                                         final String[] values3 = new String[buttonArray.size()];
+                                        final String[] values = new String[buttonArray2.size()];
                                         for (int i = 0; i < buttonArray.size(); i++) {
                                             values3[i] = buttonArray.get(i).getText().toString();
+                                            values[i] = buttonArray2.get(i).getText().toString();
                                         }
-                                        //Toast.makeText(getBaseContext(), showValue  , Toast.LENGTH_LONG).show();
-                                        registerUser(values3);
+//                                        final String[] values4 = new String[buttonArray2.size()];
+                                        registerUser(values3,values);
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -418,7 +466,7 @@ public class inputdata_CTM extends AppCompatActivity {
                         alertDialog.show();
                     } else {
 
-                        registerUser(values);
+                        registerUser(values,values2);
                     }
                 }
             });
@@ -467,22 +515,24 @@ public class inputdata_CTM extends AppCompatActivity {
     }
 
 
-    private void registerUser(String[] values) {
+    private void registerUser(String[] values,String[] values2) {
         //String[] values = new String[buttonArray.size()];
         //if it passes all the validations
         //executing the async task
-        inputdata_CTM.RegisterUser ru = new inputdata_CTM.RegisterUser(values);
+        inputdata_CTM.RegisterUser ru = new inputdata_CTM.RegisterUser(values,values2);
         ru.execute();
     }
 
 
 
     private class RegisterUser extends AsyncTask<Void, Void, String> {
-        private String[] values;
+        private String[] values,values2;
 
-        RegisterUser(String[] value) {
+        RegisterUser(String[] value,String[] value2) {
             this.values = value;
+            this.values2 = value2;
         }
+
 
         @Override
         protected void onPreExecute() {
@@ -505,8 +555,6 @@ public class inputdata_CTM extends AppCompatActivity {
             final String LOT = intent.getStringExtra("LotNO");
             final String part = intent.getStringExtra("PartNO");
 
-            //hiding the progressbar after completion
-//            progressBar.setVisibility(View.GONE);
             try {
                 //converting response to json object
                 JSONObject obj = new JSONObject(s);
@@ -514,13 +562,7 @@ public class inputdata_CTM extends AppCompatActivity {
                 if (!obj.getBoolean("error")) {
 
                     finish();
-//                    i.putExtra("ToolName", name);
-//                    i.putExtra("MasterTestID",testid);
-//                    i.putExtra("Sample", sam);
-//                    i.putExtra("InspectTestID", ISTID);
-//                    i.putExtra("LotNO",LOT);
-//                    i.putExtra("PartNO",part);
-//                    startActivity(i);
+
 
                 } else {
                     Toast.makeText(getApplicationContext(), "กรอกยังบ่ครบครับ", Toast.LENGTH_SHORT).show();
@@ -535,18 +577,19 @@ public class inputdata_CTM extends AppCompatActivity {
             //creating request handler object
             RequestHandler requestHandler = new RequestHandler();
 
-
             Intent intent = getIntent();
             final String MIN = intent.getStringExtra("MinimumValue");
             final String MAX = intent.getStringExtra("MaximumValue");
             final String testdetailid = intent.getStringExtra("MasterTestDetailID");
             final String ISTID = intent.getStringExtra("InspectTestID");
+            final String TestType = intent.getStringExtra("TestType");
 
             final float Min = Float.parseFloat(MIN);
             final float Max = Float.parseFloat(MAX);
             int detailid = Integer.valueOf(testdetailid);
             int dataist = Integer.valueOf(ISTID);
 
+            float ValArcmin=0;
             //creating request parameters
             HashMap<String, String> params = new HashMap<>();
             JSONObject jsonObj = new JSONObject();
@@ -556,16 +599,24 @@ public class inputdata_CTM extends AppCompatActivity {
                 jsonDetails.put("IDuser",String.valueOf(user.getId()));
                 jsonDetails.put("InspectTestID", dataist);
                 jsonDetails.put("MasterTestDetailID", detailid);
+                jsonDetails.put("TestTypeID", TestType);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             for (int i = 0; i < buttonArray.size(); i++) {
                 try {
                     final float Val = Float.parseFloat(values[i]);
-                    if (Val > Max || Val < Min) {
-                        jsonValues.put("value" + i, values[i].toString() + ",N");
+                    if(TextUtils.isEmpty(values2[i])) {
+                        ValArcmin=0;
+                    }else {
+                        ValArcmin = Float.parseFloat(values2[i]);
+                    }
+                    float ValueTotal = Val*60 + ValArcmin;
+
+                    if (ValueTotal > Max || ValueTotal < Min) {
+                        jsonValues.put("value" + i, ValueTotal + ",N");
                     } else {
-                        jsonValues.put("value" + i, values[i].toString() + ",Y");
+                        jsonValues.put("value" + i, ValueTotal + ",Y");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
