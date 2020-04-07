@@ -1,7 +1,7 @@
 package com.appsnipp.loginsamples;
 
 public class URLS {
-    public static final String URL_ALL= "http://10.0.1.16";
+    public static final String URL_ALL= "http://192.168.10.10";
     public static final String URL_CAMERA= URL_ALL+"/flask_detect_number/upload";
     private static final String URL_ROOT = URL_ALL+"/test/Api.php?action=";
     public static final String URL_REGISTER = URL_ROOT + "signup";
