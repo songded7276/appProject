@@ -39,6 +39,7 @@ public class Staff_layout extends AppCompatActivity {
     final String[] stocks6 = new String[1];
     final String[] stocks7 = new String[1];
     final String[] stocks8 = new String[1];
+    final String[] stocks9 = new String[1];
     final String[] Locname = new String[50];
     final String[] LocID = new String[50];
 
@@ -157,6 +158,7 @@ public class Staff_layout extends AppCompatActivity {
                 stocks6[0] = obj.getString("LocID");
                 stocks7[0] = obj.getString("Location");
                 stocks8[0] = obj.getString("Inspect_status");
+                stocks9[0] = obj.getString("TotalQTY");
 
 
                 setText1 = stocks[i];
@@ -223,11 +225,13 @@ public class Staff_layout extends AppCompatActivity {
                 String testid = stocks4[0];
                 String LotNO = stocks5[0];
                 String LocID = stocks6[0];
+                String TotalQty = stocks9[0];
                 Intent i = new Intent(Staff_layout.this, Product.class);
                 i.putExtra("Sample", sam);
                 i.putExtra("PartNO", part);
                 i.putExtra("MasterTestID", testid);
                 i.putExtra("LotNO", LotNO);
+                i.putExtra("TotalQTY", TotalQty);
                 i.putExtra("LocID", LocID);
                 startActivity(i);
             }
